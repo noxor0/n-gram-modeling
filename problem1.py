@@ -30,4 +30,4 @@ with open(sys.argv[1], 'r') as file_in:
         # print sent_prob
         if sent_prob != 1:
             pass
-            print 1/pow(sent_prob, 1.0/len(line))
+            print 1/pow(sent_prob, 1.0/len(line.split()))
