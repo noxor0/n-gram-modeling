@@ -17,7 +17,7 @@ with open(sys.argv[1], 'r') as file_in:
 
 print "Ignoring empty lines"
 # print probs
-with open(sys.argv[1], 'r') as file_in:
+with open(sys.argv[2], 'r') as file_in:
     first_lines = file_in.readlines()[7:107]
     first_lines = "".join(first_lines).lower().split('\n')
 
@@ -26,8 +26,14 @@ with open(sys.argv[1], 'r') as file_in:
         sent_word_cnt = 0
         for word in line.split():
             sent_word_cnt += 1
-            sent_prob *= probs[word]
+            try:
+                sent_prob *= probs[word]
+            except KeyError:
+                sent_prob *= 0
         # print sent_prob
         if sent_prob != 1:
             pass
-            print 1/pow(sent_prob, 1.0/len(line.split()))
+            if sent_prob == 0:
+                print 0
+            else:
+                print 1/pow(sent_prob, 1.0/len(line.split()))
