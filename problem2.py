@@ -6,7 +6,7 @@ probs = {}
 with open(sys.argv[1], 'r') as file:
     lines = ''.join(file.readlines()).lower().split()
     for i in range(len(lines)):
-        if (i+3 < len(lines)):
+        if (i+2 < len(lines)):
             if (lines[i] in bi):
                 if (lines[i+1] in bi[lines[i]]):
                     bi[lines[i]][lines[i+1]] += 1
