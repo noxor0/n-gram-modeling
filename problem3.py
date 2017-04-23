@@ -34,21 +34,29 @@ with open(sys.argv[1], 'r') as file:
 
 print "Ignoring empty lines"
 # print probs
-with open(sys.argv[1], 'r') as file_in:
+with open(sys.argv[2], 'r') as file_in:
     first_lines = file_in.readlines()[7:107]
     first_lines = "".join(first_lines).lower().split('\n')
 
     for line in first_lines:
-        sent_prob = 1
         sent_word_cnt = 0
         line_words = line.split()
+        sent_prob = 1
         for i in range(len(line_words)):
             sent_word_cnt += 1
             if i+1 < len(line_words):
                 bicount = 0
-                for val in bi[line_words[i]].keys():
-                    bicount += bi[line_words[i]][val]
-                word_prob = float(bi[line_words[i]][line_words[i+1]])/bicount
-                sent_prob *= word_prob
-        if len(line_words) != 0:
-            print 1/pow(sent_prob, 1.0/len(line_words))
+                try:
+                    for val in bi[line_words[i]].keys():
+                        bicount += bi[line_words[i]][val]
+                    word_prob = float(bi[line_words[i]][line_words[i+1]])/bicount
+                    sent_prob *= word_prob
+                except KeyError:
+                    sent_prob *= .1
+
+        if len(line_words) != 0 and sent_prob != 1:
+            pass
+            if sent_prob == 0:
+                print 0
+            else:
+                print 1/pow(sent_prob, 1.0/len(line_words))
